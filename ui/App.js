@@ -13,15 +13,23 @@ class App extends Component {
   render() {
     const movies = [
       {
-        name: 'Movie 1',
+        name: 'Movie O 1',
         duration: 60,
       },
       {
-        name: 'Movie 2',
+        name: 'Movie I 2',
         duration: 120,
       },
       {
-        name: 'Movie 3',
+        name: 'Movie O 3',
+        duration: 90,
+      },
+      {
+        name: 'Movie E 4',
+        duration: 120,
+      },
+      {
+        name: 'Movie E 5',
         duration: 90,
       },
     ];
@@ -30,7 +38,11 @@ class App extends Component {
         <div>
           {movies &&
             movies
-              .filter(movie => movie.duration < 120)
+              .filter(movie =>
+                movie.name
+                  .toLowerCase()
+                  .includes(this.state.search.toLowerCase())
+              )
               .map(movie => movie.name)
               .join(', ')}
         </div>
