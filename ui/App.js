@@ -1,39 +1,27 @@
 import { hot } from 'react-hot-loader';
 import React, { Component, Fragment } from 'react';
 import { Movies } from './Movies';
+import { methodCall } from './methods';
 
 class App extends Component {
   state = {
     search: '',
+    moviesSearch: [],
   };
 
   onSearch = ({ target: { value: search } }) => {
     this.setState(() => ({ search }));
   };
 
+  componentDidMount() {
+    methodCall('moviesSearch').then(moviesSearch => {
+      this.setState(() => ({
+        moviesSearch,
+      }));
+    });
+  }
+
   render() {
-    const movies = [
-      {
-        name: 'Movie O 1',
-        duration: 60,
-      },
-      {
-        name: 'Movie I 2',
-        duration: 120,
-      },
-      {
-        name: 'Movie O 3',
-        duration: 90,
-      },
-      {
-        name: 'Movie E 4',
-        duration: 120,
-      },
-      {
-        name: 'Movie E 5',
-        duration: 90,
-      },
-    ];
     return (
       <Fragment>
         <div>
@@ -41,7 +29,12 @@ class App extends Component {
         </div>
         <div>{this.state.search}</div>
         <div>
-          {movies && <Movies movies={movies} search={this.state.search} />}
+          {this.state.moviesSearch && (
+            <Movies
+              movies={this.state.moviesSearch}
+              search={this.state.search}
+            />
+          )}
         </div>
       </Fragment>
     );
