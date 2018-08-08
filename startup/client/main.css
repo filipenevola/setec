@@ -42,8 +42,140 @@ body {
   font-size: 14px;
 }
 
-#app {
-  color: white;
-  font-size: 10em;
-  margin: 50px;
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-header {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.main::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: inherit;
+}
+
+header {
+  background: #d2edf4;
+  background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
+  padding: 20px 15px 15px 15px;
+  position: relative;
+  box-shadow: 0 3px 3px rgba(34, 25, 25, 0.4);
+}
+
+.app-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-bar h1 {
+  font-size: 1.5em;
+  margin: 0;
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.movie-search {
+  display: flex;
+  align-items: flex-end;
+
+  margin-top: 10px;
+  margin-bottom: -10px;
+}
+
+.movie-search-text {
+  flex-grow: 1;
+
+  margin-left: 5px;
+}
+
+.movie-search-text input {
+  box-sizing: border-box;
+  padding: 10px 0;
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding-right: 80px;
+  font-size: 1em;
+}
+
+.movie-search-text input:focus {
+  outline: 0;
+}
+
+.movie-list {
+  background: white;
+}
+
+.movie-item {
+  padding: 15px;
+  border-bottom: #eee solid 1px;
+}
+
+.movie {
+  display: flex;
+  justify-content: space-between;
+}
+
+.movie-image {
+  flex-basis: 40%;
+  align-self: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .movie-image {
+    flex-basis: 20%;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .movie-image {
+    flex-basis: 10%;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .movie-image {
+    flex-basis: 7%;
+  }
+}
+
+.movie-image img {
+  max-width: 100%;
+  box-shadow: 0 3px 3px rgba(34, 25, 25, 0.4);
+}
+
+.movie-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+
+  flex-basis: 0;
+
+  margin-left: 10px;
+}
+
+.movie-title {
+}
+
+.movie-description {
+  flex-grow: 1;
+
+  margin-top: 5px;
+  text-align: justify;
+  line-height: 1.3em;
 }

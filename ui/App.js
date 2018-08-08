@@ -41,17 +41,31 @@ class App extends Component {
 
   render() {
     return (
-      <Fragment>
-        <div>
-          <input onChange={this.onSearch} value={this.state.search} />
+      <div className="app">
+        <header>
+          <div className="app-bar">
+            <div className="app-header">
+              <h1>Wantch</h1>
+            </div>
+          </div>
+          <div className="movie-search">
+            <div>
+              <i className="material-icons">search</i>
+            </div>
+            <div className="movie-search-text">
+              <input
+                type="text"
+                value={this.state.search}
+                placeholder="Type the movie that you want to watch..."
+                onChange={this.onSearch}
+              />
+            </div>
+          </div>
+        </header>
+        <div className="main">
+          <Movies movies={this.state.moviesSearch} />
         </div>
-        <div>{this.state.search}</div>
-        <div>
-          {this.state.moviesSearch && (
-            <Movies movies={this.state.moviesSearch} />
-          )}
-        </div>
-      </Fragment>
+      </div>
     );
   }
 }
