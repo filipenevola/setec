@@ -1,5 +1,6 @@
 import { hot } from 'react-hot-loader';
 import React, { Component, Fragment } from 'react';
+import { Movies } from './Movies';
 
 class App extends Component {
   state = {
@@ -36,20 +37,12 @@ class App extends Component {
     return (
       <Fragment>
         <div>
-          {movies &&
-            movies
-              .filter(movie =>
-                movie.name
-                  .toLowerCase()
-                  .includes(this.state.search.toLowerCase())
-              )
-              .map(movie => movie.name)
-              .join(', ')}
-        </div>
-        <div>
           <input onChange={this.onSearch} value={this.state.search} />
         </div>
         <div>{this.state.search}</div>
+        <div>
+          {movies && <Movies movies={movies} search={this.state.search} />}
+        </div>
       </Fragment>
     );
   }
