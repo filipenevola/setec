@@ -19,11 +19,20 @@ class App extends Component {
   };
 
   searchMovies = () => {
-    methodCall('moviesSearch', this.state.search).then(moviesSearch => {
-      this.setState(() => ({
-        moviesSearch,
-      }));
-    });
+    methodCall('moviesSearch', this.state.search)
+      .then(result => {
+        const data = JSON.parse(result);
+        if (!data || !data.results) {
+          return;
+        }
+        const { results: moviesSearch } = data;
+        this.setState(() => ({
+          moviesSearch,
+        }));
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   componentDidMount() {
