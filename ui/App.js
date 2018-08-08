@@ -10,15 +10,24 @@ class App extends Component {
   };
 
   onSearch = ({ target: { value: search } }) => {
-    this.setState(() => ({ search }));
+    this.setState(
+      () => ({ search }),
+      () => {
+        this.searchMovies();
+      }
+    );
   };
 
-  componentDidMount() {
-    methodCall('moviesSearch').then(moviesSearch => {
+  searchMovies = () => {
+    methodCall('moviesSearch', this.state.search).then(moviesSearch => {
       this.setState(() => ({
         moviesSearch,
       }));
     });
+  };
+
+  componentDidMount() {
+    this.searchMovies();
   }
 
   render() {
@@ -30,10 +39,7 @@ class App extends Component {
         <div>{this.state.search}</div>
         <div>
           {this.state.moviesSearch && (
-            <Movies
-              movies={this.state.moviesSearch}
-              search={this.state.search}
-            />
+            <Movies movies={this.state.moviesSearch} />
           )}
         </div>
       </Fragment>

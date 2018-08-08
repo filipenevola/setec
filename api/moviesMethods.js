@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 Meteor.methods({
-  moviesSearch() {
+  moviesSearch(query) {
     return [
       {
         name: 'Movie O 1',
@@ -23,6 +23,6 @@ Meteor.methods({
         name: 'Movie E 5',
         duration: 90,
       },
-    ];
+    ].filter(movie => movie.name.toLowerCase().includes(query.toLowerCase()));
   },
 });
