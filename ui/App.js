@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Movies } from './Movies';
 import { methodCall } from './methods';
 
@@ -7,6 +7,7 @@ class App extends Component {
   state = {
     search: '',
     moviesSearch: [],
+    movies: [],
   };
 
   onSearch = ({ target: { value: search } }) => {
@@ -20,12 +21,7 @@ class App extends Component {
 
   searchMovies = () => {
     methodCall('moviesSearch', this.state.search)
-      .then(result => {
-        const data = JSON.parse(result);
-        if (!data || !data.results) {
-          return;
-        }
-        const { results: moviesSearch } = data;
+      .then(moviesSearch => {
         this.setState(() => ({
           moviesSearch,
         }));
@@ -35,7 +31,30 @@ class App extends Component {
       });
   };
 
+  loadMovies = () => {
+    methodCall('movies')
+      .then(movies => {
+        this.setState(() => ({
+          movies,
+        }));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  addSavedMovie = movie => {
+    this.setState(({ movies }) => ({ movies: [...movies, movie] }));
+  };
+
+  removeSavedMovie = movie => {
+    this.setState(({ movies }) => ({
+      movies: movies.filter(m => m.id !== movie.id),
+    }));
+  };
+
   componentDidMount() {
+    this.loadMovies();
     this.searchMovies();
   }
 
@@ -63,7 +82,12 @@ class App extends Component {
           </div>
         </header>
         <div className="main">
-          <Movies movies={this.state.moviesSearch} />
+          <Movies
+            moviesSearch={this.state.moviesSearch}
+            movies={this.state.movies}
+            addSavedMovie={this.addSavedMovie}
+            removeSavedMovie={this.removeSavedMovie}
+          />
         </div>
       </div>
     );
