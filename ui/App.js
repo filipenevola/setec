@@ -8,6 +8,7 @@ class App extends Component {
     search: '',
     moviesSearch: [],
     movies: [],
+    onlyMyMovies: false,
   };
 
   onSearch = ({ target: { value: search } }) => {
@@ -20,6 +21,14 @@ class App extends Component {
   };
 
   searchMovies = () => {
+    if (this.state.onlyMyMovies) {
+      this.setState(({ movies }) => ({
+        moviesSearch: movies.filter(movie =>
+          movie.title.toLowerCase().includes(this.state.search.toLowerCase())
+        ),
+      }));
+      return;
+    }
     methodCall('moviesSearch', this.state.search)
       .then(moviesSearch => {
         this.setState(() => ({
@@ -44,13 +53,27 @@ class App extends Component {
   };
 
   addSavedMovie = movie => {
-    this.setState(({ movies }) => ({ movies: [...movies, movie] }));
+    this.setState(({ movies, moviesSearch }) => ({
+      movies: [...movies, movie],
+      moviesSearch: [...moviesSearch, movie],
+    }));
   };
 
   removeSavedMovie = movie => {
-    this.setState(({ movies }) => ({
+    this.setState(({ movies, moviesSearch }) => ({
       movies: movies.filter(m => m.id !== movie.id),
+      moviesSearch: moviesSearch.filter(m => m.id !== movie.id),
     }));
+  };
+
+  toggleOnlyMyMovies = () => {
+    this.setState(
+      ({ onlyMyMovies }) => ({
+        onlyMyMovies: !onlyMyMovies,
+        moviesSearch: [],
+      }),
+      () => this.searchMovies()
+    );
   };
 
   componentDidMount() {
@@ -64,7 +87,12 @@ class App extends Component {
         <header>
           <div className="app-bar">
             <div className="app-header">
-              <h1>Wantch</h1>
+              <h1>
+                Wantch: {this.state.onlyMyMovies ? 'My Movies' : 'Search'}
+              </h1>
+              <button onClick={this.toggleOnlyMyMovies}>
+                My Movies ({this.state.movies.length})
+              </button>
             </div>
           </div>
           <div className="movie-search">
@@ -87,6 +115,7 @@ class App extends Component {
             movies={this.state.movies}
             addSavedMovie={this.addSavedMovie}
             removeSavedMovie={this.removeSavedMovie}
+            onlyMyMovies={this.state.onlyMyMovies}
           />
         </div>
       </div>

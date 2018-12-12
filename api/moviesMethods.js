@@ -23,15 +23,9 @@ Meteor.methods({
     });
   },
   movieSave(movie) {
-    if (movie && movie.title && movie.title.toLowerCase().includes('spider')) {
-      throw new Error('Nao pode salvar filmes com Spider');
-    }
     return MoviesCollection.insert(pick(movie, MOVIE_FIELDS));
   },
   movieRemove(movie) {
-    if (movie && movie.title && movie.title.toLowerCase().includes('fast')) {
-      throw new Error('Nao pode remover filmes com Fast');
-    }
     // TODO proxima aula, remover pelo _id do mongo
     MoviesCollection.remove({ id: movie.id });
     return movie.id;
